@@ -1,0 +1,113 @@
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        {{!-- <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>Users</h4> --}}
+        <!-- Basic Bootstrap Table -->
+        <div class="card" >
+            <h5 class="card-header" >Table Basic</h5>
+            <div class="table-responsive  text-nowrap" >
+                <table id="myTable" class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-dark">Date</th>
+                            <th class="text-dark">Name</th>
+                            <th class="text-dark">Email</th>
+                            <th class="text-dark">Pincode</th>
+                            <th class="text-dark">Amount</th>
+                            <th class="text-dark">Payment type</th>
+                            <th class="text-dark">Qty</th>
+                            <th class="text-dark">Products</th>
+                            <th class="text-dark">Status</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        {{#each order}}
+                        <tr>
+                            <td>{{this.date}}</td>
+                            <td>{{this.deliveryDetails.Name}}</td>
+                            <td>{{this.deliveryDetails.Email}}</td>
+                            <td>{{this.deliveryDetails.Pincode}}</td>
+                            <td>{{this.Amount}}/-</td>
+                            <td>{{this.PaymentMethod}}</td>
+                            <td>{{this.quantity}}</td>
+                            <td>{{this.product.Name}}</td>
+
+
+
+                            <td>
+                                {{#if this.status }}
+                                <span class="badge bg-label-primary me-1">Deliverd</span>
+                                {{else}}
+                                <span class="badge bg-label-danger me-1">Canceled</span>
+                                {{/if}}
+                            </td>
+                           
+
+                        </tr>
+                    </tbody>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+        <div class="">
+       <button id="PDF" type="button" class="btn btn-outline-success">PDF</button>
+       <button id="EXCEL" type="button" class="btn btn-outline-success">EXCEL</button>
+       </div>
+        <!--/ Basic Bootstrap Table -->
+        <!-- Footer -->
+
+
+        <!-- Core JS -->
+        <!-- build:js assets/vendor/js/core.js -->
+        <script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="/admin/assets/vendor/libs/popper/popper.js"></script>
+        <script src="/admin/assets/vendor/js/bootstrap.js"></script>
+        <script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+        <script src="/admin/assets/vendor/js/menu.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- endbuild -->
+
+        <!-- Vendors JS -->
+
+        <!-- Main JS -->
+        <script src="/admin/assets/js/main.js"></script>
+        <script src="/admin/assets/js/table2Excel.js"></script>
+
+        <!-- Page JS -->
+
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script>
+            window.onload=function(){
+  console.log('haiiiiiiiiiiiiiiiii');
+  document.getElementById('PDF').addEventListener('click',()=>{
+    const pdf=this.document.getElementById('myTable')
+    console.log(pdf);
+    console.log(window);
+    let opt = {
+      margin:       4,
+      filename:     'Report.pdf',
+      image:        { type: 'jpg', quality: 1.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'A1', orientation: 'landscape' }
+    };
+    
+    html2pdf().from(pdf).set(opt).save();
+  })
+   document.getElementById('EXCEL').addEventListener('click',()=>{ 
+    var table2excel = new Table2Excel();
+   
+    table2excel.export(document.querySelectorAll("#myTable"));
+  }) 
+}
+        </script>
+        </body>
+
+        </html>
+        <script>
+</script>

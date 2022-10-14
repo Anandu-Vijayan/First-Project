@@ -1,0 +1,107 @@
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/assets/images/bg_2.jpg');"
+	data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end justify-content-center">
+			<div class="col-md-9 ftco-animate mb-5 text-center">
+				<p class="breadcrumbs mb-0"><span class="mr-2"><a href="index.html">Home <i
+								class="fa fa-chevron-right"></i></a></span> <span>WishList <i
+							class="fa fa-chevron-right"></i></span></p>
+				<h2 class="mb-0 bread">WishList</h2>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ftco-section">
+	<div class="container">
+		<div class="row">
+			<div class="table-wrap">
+				<table class="table">
+					<thead class="thead-primary">
+						<tr>
+							<th>&nbsp;</th>
+							<th>&nbsp;</th>
+							<th>Product</th>
+							<th>Price</th>
+							
+							<th>Remove</th>
+							<th>Add to cat </th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each product}}
+						<tr class="alert" role="alert">
+							<td>
+								<label class="checkbox-wrap checkbox-primary">
+									<input type="checkbox" checked>
+									<span class="checkmark"></span>
+								</label>
+							</td>
+							<td>
+							
+								<div class="img" style="background-image: url(/assets/images/{{this.product.Image}});"></div>
+							</td>
+							<td>
+								<div class="email">
+									<span>{{this.product.Name}}</span>
+									
+									<span>{{this.product.Discription}}</span>
+									
+								</div>
+							</td>
+							<td>Rs:{{this.product.Price}}/-</td>
+						
+							{{!-- <td>
+								<button class="cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
+								<span id="{{this.product._id}}">{{this.quantity}}</span>
+								<button class="cart-item-count ml-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button>
+							</td> --}}
+							{{!-- <td>{{this.product.Price }}</td> --}}
+							<td>
+                                {{this.products._id}}
+
+								<button class="btn btn-primary py-3 px-4" onclick="removeFromWishList('{{this._id}}','{{this.product._id}}' )">Remove</button>
+								
+							</td>
+							<td>	<p class="text-center"><a href="/add-to-cart/{{product._id}}" class="btn btn-primary py-3 px-4">Add to cart</a>
+				</p></td>
+						</tr>
+					</tbody>
+					{{/each}}
+				</table>
+					
+			</div>
+		</div>
+	
+			
+			</div>	
+		</div>
+	</div>
+</section>
+<script>
+function removeFromWishList(wishId,productId){
+	
+$.ajax({
+    
+    url:"/remove-from-Wishlist",
+	method:'post',
+    data:{    
+        wishList:wishId,
+        product:productId,
+    },
+    success:(response)=>{
+        if(response.removeProduct){
+            alert("Product Removed from cart")
+            location.reload()
+        }else{
+            document.getElementById(productId).innerHTML=quantity+count
+        }
+
+    }
+})
+
+}
+
+	
+</script>

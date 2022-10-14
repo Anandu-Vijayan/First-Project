@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Form-v8 by Colorlib</title>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Font-->
+	<link rel="stylesheet" type="text/css" href="/signup/css/sourcesanspro-font.css">
+	<!-- Main Style Css -->
+	<link rel="stylesheet" href="/signup/css/style.css" />
+</head>
+
+<body class="form-v8">
+	<div class="page-content">
+		<div class="form-v8-content">
+			<div class="form-left">
+				<img src="/signup/images/v8.jpg" alt="form">
+			</div>
+			<div class="form-right">
+				<div class="tab">
+					
+					<div class="tab-inner">
+
+						<button class="tablinks" onclick="openCity(event, 'sign-up')" id="defaultOpen">Sign Up</button>
+					</div>
+					{{!-- <div class="tab-inner">
+						<button class="tablinks" onclick="openCity(event, 'sign-in')">Sign In</button>
+					</div> --}}
+				</div>
+				 {{#if Err}}
+				 <div>
+                <span  class="text-light ml-4 bg-dark ">{{Err}}</span>
+                {{/if}}
+				<form action="/signup" method="post" class="form-detail">
+					<div class="tabcontent" id="sign-up">
+						<div class="form-row">
+							<label class="form-row-inner">
+								<input type="text" name="Name" id="Name" onkeyup="validateName()" class="input-text" required>
+								<span class="label">Username</span>
+								<span class="border"></span>
+								<span id="name" class="text-danger"></span>
+
+							</label>  
+						</div>
+						<div class="form-row">
+							<label class="form-row-inner">
+								<input type="text" name="Email" id="Email"  onkeyup="validEmail()"  class="input-text" required>
+								<span class="label">E-Mail</span>
+								<span class="border"></span>
+								<span id="email" class="text-danger"></span>
+                    
+							</label>
+						</div>
+						<div class="form-row">
+							<label class="form-row-inner">
+								<input type="password" name="password" id="password" onkeyup="validPassowrd()"  class="input-text" required>
+								<span class="label">Password</span>
+								<span class="border"></span>
+								<span id="passwords" class="text-danger"></span>
+							</label>
+						</div>
+						<div class="form-row">
+							<label class="form-row-inner">
+								<input type="phone_number" name="phone_number" id="phonenumber" onkeyup="validPhoneumber()"  class="input-text"
+									required>
+								<span class="label">Phone number</span>
+								<span class="border"></span>
+								<span id="phonenumbers" class="text-danger"></span>
+							</label>
+						</div>
+						<div class="form-row-last">
+							<input type="submit" name="register" class="register" value="Register">
+						</div>
+						<a href="/login">
+						<div class="form-row-last">
+							<p name="register" style="text-align:center;color:antiquewhite" value="or login using">Login</p>
+						</div>
+						</a>
+						<div class="text-center p-t-46 p-b-20">
+							<span class="txt2">
+						<div class="text-center p-t-46 p-b-20">
+							<span class="txt2">
+
+								{{!-- <p><a href="/login"></a></p> --}}
+							</span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<script>
+    var errorName = document.getElementById('name')
+    var errorEmail = document.getElementById('email')
+    var errorPassword = document.getElementById('passwords')
+	var errorPhonenumber = document.getElementById('phonenumbers')
+    function validateName() {
+        const name = document.getElementById('Name').value;
+        if (name == "") {
+            errorName.innerHTML = 'Enter your Name'
+            return false
+        }
+        if (!name.match(/^[a-zA-Z]*$/)) {
+            errorName.innerHTML = 'Number are not allowed'
+            return false
+        }
+        errorName.innerHTML = null
+        return true
+
+    }
+    function validEmail() {
+        const email = document.getElementById('Email').value
+        if (email == "") {
+            errorEmail.innerHTML = "enter you email address"
+            return false
+
+
+        }
+        if (!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+            errorEmail.innerHTML = 'enter a proper email address'
+            return false
+        }
+
+        errorEmail.innerHTML = null
+        return true
+    }
+
+    function validPassowrd() {
+        const psd = document.getElementById('password').value
+        if (psd == "") {
+            errorPassword.innerHTML = "enter a password"
+            return false
+        }
+        if (psd.length < 5) {
+			
+            errorPassword.innerHTML = "password should be more than five characters"
+            return false
+        }
+        errorPassword.innerHTML = null
+        return true
+    }
+	 function validPhoneumber() {
+        const mob = document.getElementById('phonenumber').value
+        if (mob == "") {
+            errorPhonenumber.innerHTML = "enter a phonenumber"
+            return false
+        }
+        if (mob.length < 10 && !mob.match(/^\d*$/)) {
+            errorPhonenumber.innerHTML = "Please Enter the valide phone number"
+            return false
+        }
+        errorPassword.innerHTML = null
+        return true
+    }
+
+
+    function validation() {
+        if (!validateName() || !validEmail() || !validPassowrd() || !validPhoneumber()) {
+            return false
+        }
+        return true
+    }
+</script>

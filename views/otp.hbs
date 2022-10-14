@@ -1,0 +1,93 @@
+<style>
+    .card {
+        width: 350px;
+        padding: 10px;
+        border-radius: 20px;
+        background: #fff;
+        border: none;
+        height: 350px;
+        position: relative;
+    }
+
+    .container {
+        height: 100vh;
+    }
+
+    body {
+        background: #eee;
+    }
+
+    .mobile-text {
+        color: #989696b8;
+        font-size: 15px;
+    }
+
+    .form-control {
+        margin-right: 12px;
+    }
+
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #ff8880;
+        outline: 0;
+        box-shadow: none;
+    }
+
+    .cursor {
+        cursor: pointer;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center container">
+    <div class="card py-5 px-3">
+        <h5 class="m-0">Mobile phone verification</h5><span class="mobile-text">Enter the code we just send on your
+            mobile phone <b class="text-danger"></b>+91{{Number}}</span>
+        <div class="d-flex flex-row mt-2">
+            <form action="/otp" method="post">
+            {{#if er}}
+            <span class="text-danger">{{er}}</span>
+            {{/if}}
+            {{!-- <input type="text" class="form-control" autofocus=""> --}}
+             <input type="text" name="otp" id="password" onkeyup="validPassowrd()" placeholder="Verification Code" class="form-control">
+                <span id="passwords" class="text-danger"></span> 
+        </div><br>
+         <input  type="submit"   onclick="return validation()" name="submit" class="btn btn-primary btn-md " value="VERIFY" style="background-color: aqua;">
+                 
+         </form >
+        {{!-- <div class="text-center mt-5"><span class="d-block mobile-text">Don't receive the code?</span><span
+                class="font-weight-bold text-danger cursor">Resend</span></div> --}}
+    </div>
+</div>
+
+
+    <script>
+        var Password = document.getElementById('passwords')
+
+      
+
+        function validPassowrd() {
+            const name = document.getElementById('password').value
+            if (name == "") {
+                Password.innerHTML = "enter a password"
+                return false
+            }
+            if (name.length < 4) {
+                Password.innerHTML = "password should be more than three characters"
+                return false
+            }
+            Password.innerHTML = null
+            return true
+        }
+
+
+
+        function validation() {
+            if ( !validPassowrd()) {
+                return false
+            } else if (!validPassowrd()) {
+                return false
+            }else { return true }
+
+        }
+    </script>

@@ -1,0 +1,49 @@
+<section>
+  <div class="container">
+    <div class="row mt-3">
+      {{!-- <a href="/products" class="btn btn-success ml-auto">Add Product</a> --}}
+    </div>
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th class="text-dark">Date</th>
+          <th class="text-dark">Name</th>
+          <th class="text-dark">Address</th>
+          <th class="text-dark">Pincode</th>
+          {{!-- <th class="text-dark">Mobile</th> --}}
+          <th class="text-dark">Amount</th>
+          <th class="text-dark">Payment</th>
+          <th class="text-dark">View</th>
+          <th class="text-dark">Option</th>
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        {{#each orders}}
+        <tr>
+          <td>{{this.date}}</td>
+          <td>{{this.deliveryDetails.Name}}</td>
+          <td>{{this.deliveryDetails.Address}}</td>
+          <td>{{this.deliveryDetails.Pincode}}</td>
+          <td>{{this.Amount}}/-</td>
+          <td>{{this.PaymentMethod}}</td>
+          
+          <td>
+            <a href="/view-order-products/{{this._id}}" class="btn btn-primary">View Products</a>
+             <td>
+                      {{#if this.status }}
+                      <span  class="badge bg-label-primary me-1"class="btn btn-danger"> <a href="/cancelOrder/{{this._id}}">Cancel</a></span>
+                      {{else}}
+                      <span class="badge bg-label-danger me-1 btn btn-primary">Canceled</span>
+                      {{/if}} 
+                    </td>
+           
+          </td>
+
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

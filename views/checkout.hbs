@@ -1,0 +1,283 @@
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/assets/images/bg_2.jpg');"
+	data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end justify-content-center">
+			<div class="col-md-9 ftco-animate mb-5 text-center">
+				<p class="breadcrumbs mb-0"><span class="mr-2"><a href="/">Home <i
+								class="fa fa-chevron-right"></i></a></span> <span>Checkout <i
+							class="fa fa-chevron-right"></i></span></p>
+				<h2 class="mb-0 bread">Checkout</h2>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ftco-section">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-10 ftco-animate">
+				<form id="checkout-form" class="checkout-form">
+					<p><a href="/address" class="btn btn-primary py-3 px-4 mr-4">Add New Address </a></p>
+					<h3 class="mb-4 billing-heading">Billing Details</h3>
+					<div class="card" style="width: 18rem;">
+						<div>
+							<div style=" background-color: #e2e6e7;width: 730px;height: 300px;overflow:auto;"
+								class="px-5">
+								<h4 class="pt-3">Choose a Address</h4>
+								<div class="col-md-12">
+									<div class="radio">
+										
+
+										
+									
+										
+
+											
+											{{#each addresses}}
+											<table>
+												<thead>
+													<tr>
+														<td><input type="radio" value="{{this._id}}" name="Address"></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
+												</thead>
+
+												<tbody>
+													
+													<tr>
+														<td>Name </td>
+														<td class=" px-2">:</td>
+														<td class=" px-3">{{this.address.First}} {{this.address.Last}}</td>
+													</tr>
+													<tr>
+														<td>Email </td>
+														<td class=" px-2">:</td>
+														<td class="px-3">{{this.address.Email}}</td>
+													</tr>
+													<tr>
+														<td>Mobile no </td>
+														<td class=" px-2">:</td>
+														<td class="px-3">{{this.address.Phone}}</td>
+													</tr>
+													<tr>
+														<td>Address </td>
+														<td class=" px-2">:</td>
+														<td class="px-3">{{this.address.Addrers}}</td>
+													</tr>
+													
+													<tr>
+														<td>Pincode </td>
+														<td class=" px-2">:</td>
+														<td class=" px-3">{{this.address.Pincode}}</td>
+													</tr>
+
+													<div>
+														
+
+														<hr>
+														
+													</div>
+													
+													
+												</tbody>
+												
+												
+											</table>
+											
+
+										
+										
+												<button type="button" class="btn btn-outline-danger" onclick="removeFromBox('{{this._id}}','{{this.address._id}}')">Delete</button>
+
+											{{/each}}
+										
+									</div>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+
+
+
+					<div class="row mt-5 pt-5 d-flex">
+						<div class="col-md-6 d-flex">
+							<div class="cart-detail cart-total p-3 p-md-4">
+								<h3 class="billing-heading mb-4">Cart Total</h3>
+								<p class="d-flex">
+									{{!-- <span>Subtotal</span>
+									<span>{{total}}</span>
+								</p>
+								<p class="d-flex">
+									<span>Delivery</span>
+									<span>120.00</span>
+								</p>
+								--}}
+								<hr>
+								<p class="d-flex total-price">
+									<span>Total</span>
+									{{#if netTotal}}
+									<span>Rs.{{netTotal}}</span>
+									{{else}}
+									<span>Rs.{{GrandTotal}}</span>
+									{{/if}}
+								</p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="cart-detail p-3 p-md-4">
+								<h3 class="billing-heading mb-4">Payment Method</h3>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" name="paymentmethod" value="COD"
+													class="mr-2">COD</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" name="paymentmethod" value="OnlinePyament"
+													class="mr-2">Online Payment</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" name="paymentmethod" value="Paypal"
+													class="mr-2">Paypal</label>
+										</div>
+									</div>
+								</div>
+								{{!-- <div class="form-group">
+									<div class="col-md-12">
+										<div class="checkbox">
+											<label><input type="checkbox" value="" class="mr-2"> I have read and accept
+												the
+												terms and conditions</label>
+										</div>
+									</div>
+								</div> --}}
+								<button type="submit" class="btn btn-success">PLACE ORDER</button>
+							</div>
+						</div>
+					</div>
+			</div> <!-- .col-md-8 -->
+		</div>
+	</div>
+	</form><!-- END -->
+</section>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+	$("#checkout-form").submit((e) => {
+		e.preventDefault()
+		$.ajax({
+			url: "/checkout",
+			method: 'post',
+			data: $('#checkout-form').serialize(),
+			success: (response) => {
+				if (response.codSuccess == 'COD') {
+					console.log('555555555555555555555555555')
+					location.href = "/order-success"
+				} else if (response.codSuccess == 'razorpay') {
+					razorpayPayment(response)
+
+				} else {
+					
+					for (let i = 0; i < response.links.length; i++) {
+						if (response.links[i].rel === 'approval_url') {
+							location.href = response.links[i].href;
+						}
+					}
+
+				}
+				
+			}
+
+
+		})
+	})
+	function razorpayPayment(order) {
+	
+		var options = {
+			"key": "rzp_test_LzENomul3uevEZ", // Enter the Key ID generated from the Dashboard
+			"amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+			"currency": "INR",
+			"name": "Magical Spirits",
+			"description": "Test Transaction",
+			"image": "https://example.com/your_logo",
+			"order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+			"handler": function (response) {
+
+
+				verifypayment(response, order)
+			},
+			"prefill": {
+				"name": "Magical Spirtis",
+				"email": "admin.magicalspirits@gmail.com",
+				"contact": "+91 9895767256"
+			},
+			"notes": {
+				"address": "Razorpay Corporate Office"
+			},
+			"theme": {
+				"color": "#3399cc"
+			}
+		};
+		var rzp1 = new Razorpay(options);
+		rzp1.open();
+	}
+	function verifypayment(payment, order) {
+		console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+		$.ajax({
+			url: '/verify-Payment',
+			data: {
+				payment,
+				order
+
+			},
+			method: 'post',
+			success: (response) => {
+				console.log("gggggggggggggg")
+				if (response.status) {
+					console.log("llllllllllllll")
+					
+					location.href = '/order-success'
+				} else {
+					console.log("kkkkkkkkkkkkkkkkkkk")
+					alert("payment Failed")
+				}
+
+
+			}
+
+		})
+	}
+	function removeFromBox(addressId){
+		alert("enterd"+addressId)
+		$.ajax({
+			url:'/remove-from-box',
+			method:'post',
+			data:{
+				address:addressId
+			},
+			success:(response)=>{
+				if(response){
+					alert("Address removed")
+					location.reload()
+				}else{
+					alert("not working")
+				}
+			}
+		})
+
+	}
+
+</script>

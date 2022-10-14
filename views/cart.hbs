@@ -1,0 +1,210 @@
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/assets/images/bg_2.jpg');"
+	data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end justify-content-center">
+			<div class="col-md-9 ftco-animate mb-5 text-center">
+				<p class="breadcrumbs mb-0"><span class="mr-2"><a href="index.html">Home <i
+								class="fa fa-chevron-right"></i></a></span> <span>Cart <i
+							class="fa fa-chevron-right"></i></span></p>
+				<h2 class="mb-0 bread">My Cart</h2>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ftco-section">
+	<div class="container">
+		<div class="row">
+			<div class="table-wrap">
+				<table class="table">
+					<thead class="thead-primary">
+						<tr>
+							<th>&nbsp;</th>
+							<th>Image</th>
+							<th>Product</th>
+							<th>Price</th>
+							<th>Quantity</th>
+							<th>Total</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each products}}
+						<tr class="alert" role="alert">
+							<td>
+								<label class="checkbox-wrap checkbox-primary">
+									<input type="checkbox" checked>
+									<span class="checkmark"></span>
+								</label>
+							</td>
+							<td>
+
+								<div class="img" style="background-image: url(/assets/images/{{this.product.Image}});">
+								</div>
+							</td>
+							<td>
+								<div class="email">
+									<span>{{this.product.Name}}</span>
+
+									<span>{{this.product.Discription}}</span>
+
+								</div>
+							</td>
+							<td>Rs:{{this.product.Price}}/-</td>
+
+							<td>
+								<button class="btn btn-primary py-1"
+									onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
+								<span id="{{this.product._id}}">{{this.quantity}}</span>
+								<button class="btn btn-primary py-1"
+									onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button>
+							</td>
+							<td>Rs:{{this.product.Price}}/-</td>
+							<td>
+								<button class="btn btn-primary py-3 px-4"
+								
+									onclick="removeFromCart('{{this._id}}','{{this.product._id}}')">Remove</button>
+
+							</td>
+						</tr>
+					</tbody>
+					{{/each}}
+				</table>
+
+
+			</div>
+		</div>
+		
+		<div class="w-100"></div>
+		{{#if products}}
+
+		<form id="coupon-check">
+			<div class="form-group " style="margin-left:667px" ,"mt-2"> <label>Have coupon?</label>
+				<p class="text-danger" id="couponerr"></p>
+				<div class="input-group"> <input type="text" class="form-control coupon" name="name"
+						placeholder="Coupon code"> <span class="input-group-append"> <button type="submit"
+							class="btn btn-primary btn-apply coupon">Apply</span> </div>
+
+
+			</div>
+		</form>
+		{{/if}}
+		<div class="row justify-content-end">
+			<div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
+				<div class="cart-total mb-3">
+					<h3>Cart Totals</h3>
+					<p class="d-flex">
+						<span>Subtotal</span>
+						<span id="total1">Rs:{{totalValue}}/-</span>
+					</p>
+					<p class="d-flex">
+						<span>Delivery</span>
+						<span>Rs:120.00/-</span>
+					</p>
+					<p class="d-flex">
+						<span>Coupon Discount:</span>
+						<span>Rs:{{couponDis}} /-</span>
+						{{!-- <button  type="button" class="btn btn-danger m-1">x</button> --}}
+						
+					</p>
+
+					<hr>
+					{{#if products}}
+					<p class="d-flex total-price">
+						<span>Total</span>
+						{{#if netTotal}}
+					<h6>Rs.<span id="total">{{netTotal}}/-</span></h6></span>
+					{{else}}
+					<h6>Rs.<span id="total">{{GrandTotal}}/-</span></h6></span>
+					</p>
+					{{/if}}
+					{{/if}}
+				</div>
+				{{#if products}}
+				<p class="text-center"><a href="checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a>
+				</p>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+</section>
+<script>
+	function changeQuantity(cartId, productId, userId, count) {
+		let quantity = parseInt(document.getElementById(productId).innerHTML)
+		count = parseInt(count)
+		$.ajax({
+
+			url: '/change-product-quantity',
+			data: {
+
+				user: userId,
+				cart: cartId,
+				product: productId,
+				count: count,
+				quantity: quantity
+
+			},
+			method: 'post',
+			success: (response) => {
+				if (response.removeProduct) {
+					alert("Product Removed from cart")
+					location.reload()
+				} else {
+					console.log(response)
+					document.getElementById(productId).innerHTML = quantity + count
+					document.getElementById('total1').innerHTML = response.total
+					document.getElementById('total').innerHTML = response.GrandTotal
+				}
+
+			}
+
+		})
+	}
+
+
+	function removeFromCart(cartId, productId) {
+		alert("Not workin" + cartId + ' ' + productId)
+		$.ajax({
+
+			url: '/remove-from-cart',
+			method: 'post',
+			data: {
+				cart: cartId,
+				product: productId,
+			},
+			success: (response) => {
+				if (response.removeProduct) {
+					alert("Product removing from cart")
+					location.reload()
+				} else {
+					document.getElementById(productId).innerHTML = quantity + count
+				}
+
+			}
+		})
+
+	}
+	$('#coupon-check').submit((e) => {
+		e.preventDefault()
+		$.ajax({
+			url: '/apply-coupon',
+			data: $('#coupon-check').serialize(),
+			method: 'post',
+			success: (response) => {
+				if (response.status == 'true') {
+					location.href = '/cart'
+				} else if (response.status == 'Already Used') {
+					document.getElementById('couponerr').innerHTML = 'Alredy Used'
+				} else if (response.status == 'only one') {
+					document.getElementById('couponerr').innerHTML = 'Only one coupon can be Applied'
+				} else {
+					document.getElementById('couponerr').innerHTML = 'Invalid Coupon'
+				}
+
+			}
+		})
+	})
+
+
+</script>

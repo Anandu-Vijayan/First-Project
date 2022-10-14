@@ -1,0 +1,221 @@
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Coupon management/</span>Add Coupon </h4>
+
+              <!-- Basic Layout & Basic with Icons -->
+              <div class="row">
+                <!-- Basic Layout -->
+                <div class="col-xxl">
+                  <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                      {{!-- <h5 class="mb-0">Basic Layout</h5>
+                      <small class="text-muted float-end">Default label</small> --}}
+                    </div>
+                    <div class="card-body">
+                      <form action="/admin/addcoupon" method="post">
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="basic-default-name">Create Coupon</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" name="Name" id="Name" onkeyup="validateName()" placeholder="Coupon" />
+                            <span id="nameerr" class="text-danger"></span>
+                          </div>
+                        </div>
+                         <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Issueing Date</label>
+                          <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                              <input
+                                type="text"
+                                id="basic-default-email"
+                                class="form-control"
+                                onkeyup="validStock()"
+                                placeholder="Issueing Date"
+                                name="Issueing"
+                                aria-label="john.doe"
+                                aria-describedby="basic-default-email2"
+                              />
+                              <span class="input-group-text" id="Stock"></span>
+                            </div>
+                            <div><span id="stock" class="text-danger"></span></div>
+                          </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Expairy Date</label>
+                          <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                              <input
+                                type="text"
+                                id="basic-default-email"
+                                class="form-control"
+                                onkeyup="validStock()"
+                                placeholder="Expairy Date"
+                                name="Expairy"
+                                aria-label="john.doe"
+                                aria-describedby="basic-default-email2"
+                              />
+                              <span class="input-group-text" id="Stock"></span>
+                            </div>
+                            <div><span id="stock" class="text-danger"></span></div>
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="basic-default-phone">discount Price</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              id="Price"
+                              onkeyup="validPrice()"
+                              class="form-control phone-mask"
+                              name="DiscountPrice"
+                              placeholder="Discount Price"
+                              aria-label="658 799 8941"
+                              aria-describedby="basic-default-phone"
+                            />
+                            <span id="priceee" class="text-danger"></span>
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="basic-default-message">Discription</label>
+                          <div class="col-sm-10">
+                            <textarea
+                              id="Discription"
+                              class="form-control"
+                              placeholder="Discription About product"
+                              name="Discription"
+                              onkeyup="validDiscription()"
+                              aria-label="Hi, Do you have a moment to talk Joe?"
+                              aria-describedby="basic-icon-default-message2"
+                            ></textarea>
+                            <span id="discription" class="text-danger"></span>
+                          </div>
+                        </div>
+                        <!-- Custom file input -->
+             
+                    
+                        <div class="row justify-content-end">
+                          <div class="col-sm-10">
+                            <button type="submit" class="btn btn-success" onclick="return validation()">Create</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <script>
+    var errorName = document.getElementById('nameerr')
+    var errorcategory = document.getElementById('categoryy')
+    var errorprice = document.getElementById('priceee')
+    var errorDiscription=document.getElementById('discription')
+    var errorStock=document.getElementById('stock')
+    function validateName() {
+        const name = document.getElementById('Name').value;
+        if (name == "") {
+            errorName.innerHTML = 'Enter your Name'
+            return false
+        }
+        if (!name.match(/^[a-zA-Z]*$/)) {
+            errorName.innerHTML = 'Alphanets are only allowed'
+            return false
+        }
+        errorName.innerHTML = null
+        return true
+
+    }
+    function validCategory() {
+        const catogaery = document.getElementById('Catogaery').value;
+        if (catogaery == "") {
+            errorcategory .innerHTML = 'Enter your category'
+            return false
+        }
+        if (!catogaery.match(/^[a-zA-Z]*$/)) {
+            errorcategory .innerHTML = 'Alphanets are only allowed'
+            return false
+        }
+        errorcategory.innerHTML = null
+        return true
+
+    }
+function validDiscription() {
+        const name = document.getElementById('Discription').value;
+        if (name == "") {
+            errorDiscription.innerHTML = 'Enter your Discription'
+            return false
+        }
+        if (!name.match(/^[a-zA-Z]*$/)) {
+            errorDiscriptione.innerHTML = 'Alphanets are only allowed'
+            return false
+        }
+       errorDiscription.innerHTML = null
+        return true
+
+    }
+     function validPrice() {
+        const number = document.getElementById('Price').value
+        if (number == "") {
+            errorprice.innerHTML = "enter your price"
+            return false
+        }
+        if (!number.match(/^\d{10}$/)) {
+            errorprice.innerHTML = 'Number should be valid'
+            return false
+        }
+        errorprice.innerHTML = null
+        return true
+    }
+     function validStock() {
+        const number = document.getElementById('Price').value
+        if (number == "") {
+            errorStock.innerHTML = "enter your price"
+            return false
+        }
+        if (!number.match(/^\d{10}$/)) {
+            errorStock.innerHTML = 'Number should be valid'
+            return false
+        }
+        errorStock.innerHTML = null
+        return true
+    }
+
+
+    function validation() {
+        if (!validateName() || !validCategory() || !validDiscription() || !validPrice() || !validStock()) {
+            return false
+        }
+        return true
+    }
+</script>
+                   
+
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/admin/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/admin/assets/vendor/js/bootstrap.js"></script>
+    <script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/admin/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="/admin/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
+
