@@ -63,9 +63,9 @@ If you want run the standalone `.First-Project` just download it, and open your 
 
 Production Environments are focused in being ready. That means, you just need execute the JS File.
 
-In the Production Environment all eCommerce API's are configured to work with **MONGODB** in  database; **productsAPI** and **purchaseAPI** and to work with a default **username and password** combination:
+In the Production Environment all eCommerce API's are configured to work with **MongoDB** in  database; **productsAPI** and **purchaseAPI** and to work with a default **username and password** combination:
 
-**Note.:** Remember importing each SQL files, if using MySQL for Production. You can find them inside `products-api/src/main/sql/` and `purchase-api/src/main/sql/`
+
 
 * **Username:** admin@gmail.com
 * **Password:** 123456
